@@ -1,0 +1,110 @@
+<div class="work-order-panel">
+
+  <!-- ── Header ── -->
+  <div class="panel-header">
+    <div class="panel-titles">
+      <h2>Work Order Details</h2>
+      <p class="panel-subtitle">Specify the dates, name and status for this order</p>
+    </div>
+
+    <!-- Action buttons moved here -->
+    <div class="panel-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="workOrderForm.invalid"
+        (click)="onSubmit()"
+      >
+        {{ isCreateMode ? 'Create' : 'Save' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Form ── -->
+  <form [formGroup]="workOrderForm" (ngSubmit)="onSubmit()" class="panel-content">
+
+    <!-- Overlap / validation error banner -->
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Work Order Name -->
+    <div class="form-group">
+      <label for="name">Work Order Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        placeholder="Acme Inc."
+      />
+      <div
+        class="validation-error"
+        *ngIf="workOrderForm.get('name')?.invalid && workOrderForm.get('name')?.touched"
+      >
+        Work order name is required
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="form-group">
+      <label for="status">Status</label>
+      <ng-select
+        inputId="status"
+        formControlName="status"
+        [items]="statusOptions"
+        bindLabel="label"
+        bindValue="value"
+        [clearable]="false"
+        [searchable]="false"
+        placeholder="Select status"
+      ></ng-select>
+      <div
+        class="validation-error"
+        *ngIf="workOrderForm.get('status')?.invalid && workOrderForm.get('status')?.touched"
+      >
+        Status is required
+      </div>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input
+        type="date"
+        id="startDate"
+        formControlName="startDate"
+        class="form-control date-input"
+        (click)="openDatePicker('startDate')"
+      />
+      <div
+        class="validation-error"
+        *ngIf="workOrderForm.get('startDate')?.invalid && workOrderForm.get('startDate')?.touched"
+      >
+        Start date is required
+      </div>
+    </div>
+
+    <!-- End Date -->
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input
+        type="date"
+        id="endDate"
+        formControlName="endDate"
+        class="form-control date-input"
+        (click)="openDatePicker('endDate')"
+      />
+      <div
+        class="validation-error"
+        *ngIf="workOrderForm.get('endDate')?.invalid && workOrderForm.get('endDate')?.touched"
+      >
+        End date is required
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,477 @@
+
+
+.timeline-container {
+  font-family: "Circular-Std", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+// ── Top navbar  ─────────────────────────────────────────
+.timeline-header {
+  height: auto;
+  min-height: 50px;
+  padding: 16px 24px 12px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6eaef;
+  flex-shrink: 0;
+
+  .work-order {
+    font-family: "Circular-Std", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #030829;
+    margin: 8px 0 4px 0;
+    line-height: 34px;
+  }
+
+  .timescale-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+
+    label {
+      font-family: "Circular-Std", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #687195;
+      margin: 0;
+      cursor: default;
+    }
+
+    ng-select {
+      width: 110px;
+
+      ::ng-deep {
+        .ng-select-container {
+          border: none;
+          border-radius: 4px;
+          min-height: 25px;
+          height: 25px;
+          background: rgba(240, 242, 247, 0.75);
+          cursor: pointer;
+
+          .ng-value-container {
+            padding: 0 8px;
+
+            .ng-value {
+              font-family: "Circular-Std", sans-serif;
+              font-size: 13px;
+              font-weight: 500;
+              color: #3e40db;
+              line-height: 25px;
+            }
+
+            .ng-input input {
+              font-family: "Circular-Std", sans-serif;
+              font-size: 13px;
+              color: #3e40db;
+            }
+          }
+
+          .ng-arrow-wrapper {
+            padding-right: 8px;
+            .ng-arrow {
+              border-color: #3e40db transparent transparent;
+              border-width: 4px 4px 0;
+            }
+          }
+        }
+
+        &.ng-select-opened .ng-select-container {
+          background: #ffffff;
+          border: 1px solid #3e40db;
+        }
+
+        .ng-dropdown-panel {
+          border: 1px solid #687195;
+          border-radius: 4px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2px;
+          background: #ffffff;
+
+          .ng-option {
+            height: 28px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-family: "Circular-Std", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            background: #f1f3f8;
+            color: #020828;
+
+            &.ng-option-marked { background: #e8eaf0; }
+            &.ng-option-selected {
+              background: #d8dcea;
+              color: #3e40db;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ── Main body: left panel + scrollable grid ────────────────────────────────
+.timeline-grid-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+// ── Left panel  ────────────────────────────────────────
+.work-centers-panel {
+  width: 382px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e6eaef;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .work-center-header {
+    height: 60px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e6eaef;
+    flex-shrink: 0;
+
+    span, &  {
+      font-family: "Circular-Std", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #677095;
+    }
+  }
+
+  .work-center-row {
+    height: 48px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e6eaef;
+    font-family: "Circular-Std", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #020828;
+    background: #ffffff;
+    transition: background 0.1s ease;
+    flex-shrink: 0;
+
+    &:nth-child(2) {
+      background: #f9fbfc;
+    }
+  }
+}
+
+// ── Right scrollable panel ─────────────────────────────────────────────────
+.timeline-scroll-container {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #f6f8fb;
+  position: relative;
+}
+
+// ── Date header row  ────────────────────────────────────
+.timeline-dates-header {
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  background: #ffffff;
+  border-bottom: 1px solid #e6eaef;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+  padding-bottom: 0;
+
+  .timeline-column {
+    min-width: 114px;
+    width: 114px;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #e6eaef;
+    position: relative;
+
+    font-family: "Circular-Std", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #677095;
+
+    &:last-child { border-right: none; }
+  }
+
+  // "Current month" badge — positioned over the today column
+  .current-month-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #d4d7ff;
+    color: #3e40db;
+    font-family: "Circular-Std", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 2px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+    z-index: 15;
+    pointer-events: none;
+  }
+
+  // Today column header gets highlight background
+  .today-header-cell {
+    background: #edf0ff;
+  }
+}
+
+// ── Grid rows ──────────────────────────────────────────────────────────────
+.timeline-rows {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+.timeline-row {
+  height: 48px;
+  border-bottom: 1px solid #e6eaef;
+  cursor: pointer;
+  background: #ffffff;
+  transition: background 0.1s ease;
+
+  &:hover {
+    background: #f9fbfc;
+
+    .click-prompt { opacity: 1; }
+  }
+
+  .timeline-grid {
+    height: 100%;
+    display: flex;
+    position: relative;
+  }
+
+  .grid-column {
+    min-width: 114px;
+    width: 114px;
+    flex-shrink: 0;
+    border-right: 1px solid #e6eaef;
+    height: 100%;
+
+    &:last-child { border-right: none; }
+  }
+
+  // Vertical today indicator
+  .current-month-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #d4d7ff;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  // "Click to add dates" tooltip
+  .click-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #677095;
+    color: #f8f9ff;
+    font-family: "Circular-Std", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px 12px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 3;
+    white-space: nowrap;
+  }
+}
+
+// ── Work Order Bars ──────────────────────────
+.work-order-bar {
+  position: absolute;
+  height: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: pointer;
+  z-index: 2;
+  overflow: visible;
+  min-width: 60px;
+
+  // ── Status colors  ───────────────────────────────────
+
+  &.status-open {
+    background: #ecedff;
+    border: 1px solid #dedfff;
+    .work-order-name { color: #020828; }
+    .status-badge {
+      background: #e4fcff;
+      border: 1px solid #cefbff;
+      color: #00b0be;
+    }
+  }
+
+  &.status-in-progress {
+    background: #ecedff;
+    border: 1px solid #dedfff;
+    .work-order-name { color: #020828; }
+    .status-badge {
+      background: #d6d8ff;
+      color: #3e40db;
+    }
+  }
+
+  &.status-complete {
+    background: #f8fff3;
+    border: 1px solid #d1f9b3;
+    .work-order-name { color: #020828; }
+    .status-badge {
+      background: #e1ffcb;
+      color: #07a168;
+    }
+  }
+
+  &.status-blocked {
+    background: #fffbf0;
+    border: 1px solid #fff4cf;
+    .work-order-name { color: #020828; }
+    .status-badge {
+      background: #fbedb5;
+      color: #b13600;
+    }
+  }
+}
+
+.work-order-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.work-order-name {
+  font-family: "Circular-Std", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+// Status badge pill
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 2px 8px;
+  font-family: "Circular-Std", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 18px;
+}
+
+// Three-dot actions button
+.actions-menu {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(216, 220, 234, 0.8);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+  line-height: 1;
+  color: #677095;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+
+  &:hover { background: rgba(200, 204, 220, 1); }
+}
+
+.work-order-bar:hover .actions-menu {
+  opacity: 1;
+}
+
+// ── Floating dropdown  ────────────────
+.floating-dropdown {
+  position: fixed;
+  width:150px;
+  background: #ffffff;
+ box-shadow: 0 0 0 1px rgba(104, 113, 150, 0.1) , 0 2.5px 3px -1.5px rgba(200, 207, 233, 1) , 0 4.5px 5px -1px rgba(216, 220, 235, 1);
+border-radius: 5px;
+background-color: rgba(255, 255, 255, 1);
+
+  z-index: 99999;
+  overflow: hidden;
+
+  .floating-dropdown-item {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-family: "Circular-Std", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2f3059;
+    background: #f1f3f8;
+    cursor: pointer;
+    transition: background 0.1s ease;
+    border: none;
+    width: 100%;
+    text-align: left;
+
+    &:hover { background: #e8eaf0; }
+
+    &.delete {
+      color: rgba(62, 64, 219, 1);
+
+
+      &:hover { background: #8a90a8; }
+    }
+  }
+}
+
+// ── Panel overlay─────────────────────────────────────────────
+.panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(246, 248, 251, 0.5);
+  z-index: 999;
+}
