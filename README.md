@@ -6,6 +6,16 @@ An interactive timeline component built for a manufacturing ERP system. It allow
 
 ## Getting Started
 
+
+### Loom Recorded Video: 
+-Apllication Walkthrough loom video
+https://www.loom.com/share/6e9452cda8e04856982489886af32e40
+
+- Code walkthrough
+https://www.loom.com/share/8e59fff21bad413aba68f60cba03f84a
+
+
+
 ### Prerequisites
 - Node.js 18+
 - Angular CLI 17+
@@ -214,4 +224,5 @@ To extend or replace the sample data, edit `work-order.service.ts` — the `init
 
 
 ```
+
 
