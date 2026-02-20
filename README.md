@@ -180,4 +180,38 @@ To extend or replace the sample data, edit `work-order.service.ts` — the `init
 
 ## Known Gaps & Future Improvements
 
+<!-- @design-gap [SCROLL POSITION — CENTER ON TODAY] -->
+// The spec says "center the timeline on today's date" on initial load.
+// Implemented: today is within view but not always centred — the timeline
+// starts at viewStartDate and today may appear near the left edge.
+// @upgrade: After generating columns, calculate the pixel offset of today
+// and set scrollLeft on .timeline-scroll-container to
+// (todayOffset - containerWidth / 2).
+
+
+<!-- @design-gap [STATUS DROPDOWN SELECTED VALUE COLOUR] -->
+// Sketch: selected status value in the ng-select shows the status colour
+// (e.g. green text for Complete, orange for Blocked) — matches the badge colours.
+// Implemented: all selected values render in rgba(0,176,191,1) — a single teal
+// colour — because the ng-select value template is not customised.
+// @upgrade: Use ng-select's [ngOptionTemplate] / [labelTemplate] inputs to
+// render a mini status badge inside the select control, matching Sketch exactly.
+
+ <!-- @design-gap [DATE PICKER — NATIVE VS ngb-datepicker] -->
+// Spec requires @ng-bootstrap ngb-datepicker.
+// Implemented: native <input type="date"> with `showPicker()` polyfill.
+// Reason: ngb-datepicker integration with Reactive Forms required additional
+// NgbDateAdapter/NgbDateParserFormatter configuration to convert between
+// NgbDateStruct and ISO string. Under time constraints, native date input
+// was used as a functional equivalent.
+// Visual gap: the native date picker renders the OS/browser default calendar,
+// which does not match the Sketch datepicker styling at all.
+// @upgrade: Install @ng-bootstrap/ng-bootstrap, create a custom
+// NgbDateISOParserFormatter service, replace <input type="date"> with
+// <input ngbDatepicker [formControlName]="..."> and style the calendar
+// popup to match Sketch (custom .ngb-dp-* overrides in SCSS).
+
+
+
 ```
+
